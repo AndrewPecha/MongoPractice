@@ -62,7 +62,7 @@ public class OptimisticConcurrencyDataAccessorTests
 
         var tasks = Enumerable.Range(0, 100).Select(async i =>
         {
-            await dataAccessor.UpdateCounter(counter.Id, x => x.Value++);
+            await dataAccessor.UpdateCounter(counter.Id, IncrementValue);
 
             return 1;
         }).ToList();
@@ -75,6 +75,11 @@ public class OptimisticConcurrencyDataAccessorTests
         _testOutputHelper.WriteLine($"Modified: {total.Sum(r => r)}");
 
         //Assert
+    }
+
+    private void IncrementValue(Counter counter)
+    {
+        counter.Value++;
     }
     
     [Fact]
