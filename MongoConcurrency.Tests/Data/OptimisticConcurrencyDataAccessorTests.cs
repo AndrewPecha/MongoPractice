@@ -62,7 +62,7 @@ public class OptimisticConcurrencyDataAccessorTests
 
         var tasks = Enumerable.Range(0, 100).Select(async i =>
         {
-            await dataAccessor.ReplaceCounter(counter.Id, x => x.Value++);
+            await dataAccessor.UpdateCounter(counter.Id, x => x.Value++);
 
             return 1;
         }).ToList();

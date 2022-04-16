@@ -40,7 +40,7 @@ public class OptimisticConcurrencyDataAccessor
         return null;
     }
     
-    public async Task ReplaceCounter(Guid id, Action<Counter> updates)
+    public async Task UpdateCounter(Guid id, Action<Counter> updates)
     {
         long result;
         do
