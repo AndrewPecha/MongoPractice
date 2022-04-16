@@ -14,6 +14,7 @@
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f8920484_002D19e0_002D4f0b_002D8858_002D3c199a9e8786/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="TestCollision" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;xUnit::C6807477-273D-445B-BD02-49E2D474B624::net6.0::MongoConcurrency.Tests.Data.OptimisticConcurrencyDataAccessorTests.TestCollision&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::C6807477-273D-445B-BD02-49E2D474B624::net6.0::MongoConcurrency.Tests.Data.CollidingDataAccessorTests.TestCollision&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	

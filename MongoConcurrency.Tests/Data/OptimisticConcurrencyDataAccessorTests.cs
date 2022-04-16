@@ -62,7 +62,7 @@ public class OptimisticConcurrencyDataAccessorTests
 
         var tasks = Enumerable.Range(0, 100).Select(async i =>
         {
-            await dataAccessor.ReplaceCounterOptimisticConcurrency(counter.Id, x => x.Value++);
+            await dataAccessor.ReplaceCounter(counter.Id, x => x.Value++);
 
             return 1;
         }).ToList();
@@ -73,6 +73,17 @@ public class OptimisticConcurrencyDataAccessorTests
 
         _testOutputHelper.WriteLine($"After   : {document.Value}");
         _testOutputHelper.WriteLine($"Modified: {total.Sum(r => r)}");
+
+        //Assert
+    }
+    
+    [Fact]
+    public async Task TestCollision_Replace()
+    {
+        //maybe a long running process with old data has old version while a new shorter lived process overwrites?
+        //Arrange
+
+        //Act
 
         //Assert
     }

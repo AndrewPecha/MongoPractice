@@ -4,7 +4,7 @@ using MongoDB.Driver.Linq;
 
 namespace MongoConcurrency.Data;
 
-public class CollidingDataAccessor : IDataAccessor
+public class CollidingDataAccessor
 {
     public const string DbName = "CounterDb";
     public const string CollectionName = "CounterCollection";

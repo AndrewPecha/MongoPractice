@@ -1,10 +1,11 @@
-﻿using MongoConcurrency.Data.Models;
+﻿using System.Reflection;
+using MongoConcurrency.Data.Models;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 
 namespace MongoConcurrency.Data;
 
-public class OptimisticConcurrencyDataAccessor : IDataAccessor
+public class OptimisticConcurrencyDataAccessor
 {
     public const string DbName = "CounterDb";
     public const string CollectionName = "CounterCollection";
@@ -23,10 +24,23 @@ public class OptimisticConcurrencyDataAccessor : IDataAccessor
     
     public async Task<ReplaceOneResult> ReplaceCounter(Guid id, Counter newDocument)
     {
-        throw new NotImplementedException();
+        long result;
+        do
+        {
+            var existingDocument = await GetCounter(id);
+            
+            var previousVersion = existingDocument.Version;
+            CopyPropertiesExceptVersion(newDocument, existingDocument);
+            existingDocument.Version++;
+            
+            result = (await _collection.ReplaceOneAsync(c => c.Id == id && c.Version == previousVersion, existingDocument,
+                new ReplaceOptions {IsUpsert = false})).ModifiedCount;
+        } while (result == 0);//ensure a document gets modified
+        
+        return null;
     }
     
-    public async Task<long> ReplaceCounterOptimisticConcurrency(Guid id, Action<Counter> updates)
+    public async Task ReplaceCounter(Guid id, Action<Counter> updates)
     {
         long result;
         do
@@ -40,7 +54,15 @@ public class OptimisticConcurrencyDataAccessor : IDataAccessor
             result = (await _collection.ReplaceOneAsync(c => c.Id == id && c.Version == previousVersion, existingDocument,
                 new ReplaceOptions {IsUpsert = false})).ModifiedCount;
         } while (result == 0);//ensure a document gets modified
+    }
 
-        return result;
+    //modified from https://stackoverflow.com/a/33814017/8484685
+    private void CopyPropertiesExceptVersion<T>(T sourceObject, T targetObject)
+    {
+        var properties = typeof(T).GetProperties().Where(p => p.CanWrite && p.Name != "Version");
+        foreach (PropertyInfo property in properties)
+        {
+            property.SetValue(targetObject, property.GetValue(sourceObject, null), null);
+        }
     }
 }
