@@ -62,20 +62,9 @@ public class OptimisticConcurrencyDataAccessorTests
 
         var tasks = Enumerable.Range(0, 100).Select(async i =>
         {
-            long result;
-            do
-            {
-                var existingDoc = await dataAccessor.GetCounter(counter.Id);
+            await dataAccessor.ReplaceCounterOptimisticConcurrency(counter.Id, x => x.Value++);
 
-                var previousVersion = existingDoc.Version;
-            
-                existingDoc.Value++;
-                existingDoc.Version++;
-                
-                result = (await dataAccessor.ReplaceCounter(counter.Id, previousVersion, existingDoc)).ModifiedCount;
-            } while (result == 0);//ensure a document gets modified
-
-            return result;
+            return 1;
         }).ToList();
 
         var total = await Task.WhenAll(tasks);

@@ -24,6 +24,8 @@ public class CollidingDataAccessor : IDataAccessor
 
     public async Task<ReplaceOneResult> ReplaceCounter(Guid id, Counter document)
     {
+        
+        
         return await _collection.ReplaceOneAsync(c => c.Id == id, document,
             new ReplaceOptions {IsUpsert = false});
     }

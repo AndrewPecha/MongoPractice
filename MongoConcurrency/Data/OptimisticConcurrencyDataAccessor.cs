@@ -20,16 +20,27 @@ public class OptimisticConcurrencyDataAccessor : IDataAccessor
     {
         return await _collection.AsQueryable().Where(x => x.Id == id).SingleAsync();
     }
-
-    public Task<ReplaceOneResult> ReplaceCounter(Guid id, Counter document)
+    
+    public async Task<ReplaceOneResult> ReplaceCounter(Guid id, Counter newDocument)
     {
-        //need to pass version here...
         throw new NotImplementedException();
     }
     
-    public async Task<ReplaceOneResult> ReplaceCounter(Guid id, int previousVersion, Counter document)
+    public async Task<long> ReplaceCounterOptimisticConcurrency(Guid id, Action<Counter> updates)
     {
-        return await _collection.ReplaceOneAsync(c => c.Id == id && c.Version == previousVersion, document,
-            new ReplaceOptions {IsUpsert = false});
+        long result;
+        do
+        {
+            var existingDocument = await GetCounter(id);
+            updates?.Invoke(existingDocument);
+            
+            var previousVersion = existingDocument.Version;
+            existingDocument.Version++;
+            
+            result = (await _collection.ReplaceOneAsync(c => c.Id == id && c.Version == previousVersion, existingDocument,
+                new ReplaceOptions {IsUpsert = false})).ModifiedCount;
+        } while (result == 0);//ensure a document gets modified
+
+        return result;
     }
 }
