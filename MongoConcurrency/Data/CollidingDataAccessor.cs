@@ -22,8 +22,9 @@ public class CollidingDataAccessor : IDataAccessor
         return await _collection.AsQueryable().Where(x => x.Id == id).SingleAsync();
     }
 
-    public async Task ReplaceCounter(Guid id, Counter document)
+    public async Task<ReplaceOneResult> ReplaceCounter(Guid id, Counter document)
     {
-        throw new NotImplementedException();
+        return await _collection.ReplaceOneAsync(c => c.Id == id, document,
+            new ReplaceOptions {IsUpsert = false});
     }
 }

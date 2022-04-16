@@ -21,7 +21,7 @@ public class OptimisticConcurrencyDataAccessor : IDataAccessor
         return await _collection.AsQueryable().Where(x => x.Id == id).SingleAsync();
     }
 
-    public Task ReplaceCounter(Guid id, Counter document)
+    public Task<ReplaceOneResult> ReplaceCounter(Guid id, Counter document)
     {
         throw new NotImplementedException();
     }
