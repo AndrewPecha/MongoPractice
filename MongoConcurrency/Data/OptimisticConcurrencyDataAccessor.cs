@@ -23,6 +23,13 @@ public class OptimisticConcurrencyDataAccessor : IDataAccessor
 
     public Task<ReplaceOneResult> ReplaceCounter(Guid id, Counter document)
     {
+        //need to pass version here...
         throw new NotImplementedException();
+    }
+    
+    public async Task<ReplaceOneResult> ReplaceCounter(Guid id, int previousVersion, Counter document)
+    {
+        return await _collection.ReplaceOneAsync(c => c.Id == id && c.Version == previousVersion, document,
+            new ReplaceOptions {IsUpsert = false});
     }
 }

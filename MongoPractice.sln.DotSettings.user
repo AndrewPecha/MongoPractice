@@ -8,6 +8,9 @@
     &lt;TestId&gt;xUnit::C6807477-273D-445B-BD02-49E2D474B624::net6.0::MongoConcurrency.Tests.Data.CollidingDataAccessorTests.GetCounter_GetsExpectedCounter&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;xUnit::C6807477-273D-445B-BD02-49E2D474B624::net6.0::MongoConcurrency.Tests.Data.OptimisticConcurrencyDataAccessorTests.GetCounter_GetsExpectedCounter&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;xUnit::C6807477-273D-445B-BD02-49E2D474B624::net6.0::MongoConcurrency.Tests.Data.CollidingDataAccessorTests.TestCollision&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::C6807477-273D-445B-BD02-49E2D474B624::net6.0::MongoConcurrency.Tests.Data.OptimisticConcurrencyDataAccessorTests.TestCollision&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
+	
+	
 	<s:String x:Key="/Default/Housekeeping/UnitTestingMru/UnitTestRunner/SpawnedProcessesKnownList/=mongod_002Eexe/@EntryIndexedValue">KillOrphaned</s:String></wpf:ResourceDictionary>

@@ -26,7 +26,7 @@ public class CollidingDataAccessorTests
     {
         //Arrange
         var runner = MongoDbRunner.Start();
-        var collection = await SetupCollection(runner);
+        var collection = SetupCollection(runner);
         var expected = new Counter
         {
             Id = Guid.NewGuid(),
@@ -47,7 +47,7 @@ public class CollidingDataAccessorTests
     public async Task TestCollision()
     {
         var runner = MongoDbRunner.Start();
-        var collection = await SetupCollection(runner);
+        var collection = SetupCollection(runner);
         var counter = new Counter
         {
             Id = Guid.NewGuid(),
@@ -86,7 +86,7 @@ public class CollidingDataAccessorTests
         //Assert
     }
 
-    private async Task<IMongoCollection<Counter>> SetupCollection(MongoDbRunner runner)
+    private IMongoCollection<Counter> SetupCollection(MongoDbRunner runner)
     {
         return new MongoClient(runner.ConnectionString)
             .GetDatabase(CollidingDataAccessor.DbName)
