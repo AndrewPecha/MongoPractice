@@ -25,8 +25,8 @@ public class OptimisticConcurrencyDataAccessorTests
     {
         //Arrange
         var runner = MongoDbRunner.Start();
-        var collection = new MongoClient(runner.ConnectionString).GetDatabase(OptimisticConcurrencyDataAccessor.DbName).GetCollection<Counter>(OptimisticConcurrencyDataAccessor.CollectionName);
-        var expected = new Counter
+        var collection = new MongoClient(runner.ConnectionString).GetDatabase(OptimisticConcurrencyDataAccessor.DbName).GetCollection<VersionTrackerClass>(OptimisticConcurrencyDataAccessor.CollectionName);
+        var expected = new VersionTrackerClass
         {
             Id = Guid.NewGuid(),
             Value = 0
@@ -47,7 +47,7 @@ public class OptimisticConcurrencyDataAccessorTests
     {
         var runner = MongoDbRunner.Start();
         var collection = SetupCollection(runner);
-        var counter = new Counter
+        var counter = new VersionTrackerClass
         {
             Id = Guid.NewGuid(),
             Value = 0
@@ -77,9 +77,9 @@ public class OptimisticConcurrencyDataAccessorTests
         //Assert
     }
 
-    private void IncrementValue(Counter counter)
+    private void IncrementValue(VersionTrackerClass versionTrackerClass)
     {
-        counter.Value++;
+        versionTrackerClass.Value++;
     }
     
     [Fact]
@@ -93,10 +93,10 @@ public class OptimisticConcurrencyDataAccessorTests
         //Assert
     }
 
-    private IMongoCollection<Counter> SetupCollection(MongoDbRunner runner)
+    private IMongoCollection<VersionTrackerClass> SetupCollection(MongoDbRunner runner)
     {
         return new MongoClient(runner.ConnectionString)
             .GetDatabase(CollidingDataAccessor.DbName)
-            .GetCollection<Counter>(CollidingDataAccessor.CollectionName);
+            .GetCollection<VersionTrackerClass>(CollidingDataAccessor.CollectionName);
     }
 }

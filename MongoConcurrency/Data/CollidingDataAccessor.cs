@@ -8,21 +8,21 @@ public class CollidingDataAccessor
 {
     public const string DbName = "CounterDb";
     public const string CollectionName = "CounterCollection";
-    private readonly IMongoCollection<Counter> _collection;
+    private readonly IMongoCollection<VersionTrackerClass> _collection;
 
     public CollidingDataAccessor(string mongoConnectionString)
     {
         var client = new MongoClient(mongoConnectionString);
-        _collection = client.GetDatabase(DbName).GetCollection<Counter>(CollectionName);
+        _collection = client.GetDatabase(DbName).GetCollection<VersionTrackerClass>(CollectionName);
     }
 
 
-    public async Task<Counter> GetCounter(Guid id)
+    public async Task<VersionTrackerClass> GetCounter(Guid id)
     {
         return await _collection.AsQueryable().Where(x => x.Id == id).SingleAsync();
     }
 
-    public async Task<ReplaceOneResult> ReplaceCounter(Guid id, Counter document)
+    public async Task<ReplaceOneResult> ReplaceCounter(Guid id, VersionTrackerClass document)
     {
         
         

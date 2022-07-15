@@ -1,6 +1,6 @@
 ﻿namespace MongoConcurrency.Data.Models;
 
-public class Counter
+public class VersionTrackerClass
 {
     public Guid Id { get; set; }
     public int Version { get; set; }
